@@ -55,12 +55,12 @@ elif tipo == 2:
         conLb = valorRS/cotLb
         print(f"Utilizando a cotação de {cotLb}R$ à Libra, o valor do seu produto é: {conLb:.2f}£!")
         print()
-        continuar = int(input("Digite 1 para realizar outra operação, caso queira trocar de modo digite 2, caso queira para digite 3: "))
+        continuar = int(input("Digite 1 para trocar de modo , caso queira realizar outra operação digite 2, caso queira para digite 3: "))
         if continuar == 3:
             break
-        elif continuar == 2:
+        elif continuar == 1:
             print()
-            print("Você digitou 2.")
+            print("Você digitou 1.")
             print("Conversão Libras -> Reais")
             print("Atenção! Digite valores utilizando PONTO para decímais!")
             print()
