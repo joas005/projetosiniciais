@@ -3,9 +3,10 @@ import os
 os.system("cls")
 
 print("E P I C 🗿 ✂️   📃 B A T T L E")
-counter = 0
+counter = 1
 p1wins = 0
 p2wins = 0
+
 while True:
   print()
   print("Selecione seu movimento: ")
@@ -15,6 +16,7 @@ while True:
   print("\033[31m""Atenção! Os movimentos devem ser colocados em MAÍUSCULO.""\033[0m")
   print("---")
 
+  print("Round: ", counter)
   print()
   p1 = input("Player 1 > ")
   p2 = input("Player 2 > ")
@@ -72,7 +74,7 @@ while True:
       break
   
 print("\033[36m")
-print(f"Vocês jogaram {counter} partidas!")
+print(f"Vocês jogaram {counter-1} partidas!")
 print("\033[0m")
 print("O número de vitórias do Player 1 foi...", p1wins)
 print("O número de vitórias do Player 2 foi...", p2wins)
@@ -86,5 +88,3 @@ elif p1wins == p2wins:
   ganhador = "EMPATADO."
 
 print("\033[32m",ganhador, "PARABÉNS!!!""\033[0m")
-print()
-print("Obrigado por jogarem!!")
