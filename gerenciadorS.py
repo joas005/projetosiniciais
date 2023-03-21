@@ -1,5 +1,5 @@
-import os
-os.system('cls')
+import os, time
+os.system("cls")
 from cryptography.fernet import Fernet
 
 #Funções e organização -- 
@@ -20,6 +20,8 @@ def abrirkey():
 #Ver - 
 def ver():
     print()
+    print("\033[34m"'Você escolheu - ver:'"\033[0m")
+    print()
     with open("loginsheet.txt", "r") as sheet:
     
         for list in sheet.readlines():
@@ -27,13 +29,22 @@ def ver():
             login, user, senha = data.split("|")
             print(login, "-" "\n" "User:", user)
             print("Senha:", fer.decrypt(senha.encode()).decode(), "\n")
+            time.sleep(0.5)
     
     continuar = input("Deseja continuar usando o porgrama? ")
+    os.system("cls")
+    
     if continuar != "sim":
+        print()
+        print("\033[34m""Obrigado por me usar!""\033[0m")
+        print("\033[31m""Encerrando operações...""\033[0m")
+        time.sleep(1)
         exit()
 
 #Add - 
 def add():
+    print()
+    print("\033[35m"'Você escolheu - adicionar (add):'"\033[0m")
     print()
     onde = input("Salvar nome do login como: ")
     name = input("Nome da conta: ")
@@ -49,12 +60,16 @@ def add():
         check = input("Deseja ver os logins adicionados? ")
         
         if check == "sim":
+            time.sleep(1)
+            os.system("cls")
             ver()
         else: 
             print("\033[31m""Saindo do programa...""\033[0m")
             exit()
     
     else: 
+        time.sleep(1)
+        os.system("cls")
         add()
 
 #Código -- 
@@ -78,5 +93,8 @@ while sair != "sim":
         print()
         print("\033[31m""Desculpe não entendi o que você deseja")
         sair = input("Deseja sair? ""\033[0m")
+        os.system("cls")
         continue 
-
+print()
+print("Saindo...")
+exit()
