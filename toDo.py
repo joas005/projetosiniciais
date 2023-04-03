@@ -3,7 +3,6 @@ import time
 os.system('cls' if os.name == 'nt' else 'clear')
 
 # Funções --
-
 # Checando a existência da lista -
 def checkExistênciaBackup():
     if os.path.isfile('tasks.txt'):
@@ -15,11 +14,10 @@ def checkExistênciaBackup():
             with open("tasks.txt", "r", encoding='utf=8') as backup:
                 for list in backup.readlines():
                     data = list
-                    num, item = data.split(': ')
+                    item = data.strip('\n')
                     toDo.append(item.capitalize())
         else:
             os.remove('tasks.txt')
-
 
 # Saindo do programa -
 def sair():
@@ -28,25 +26,23 @@ def sair():
     time.sleep(1.5)
     exit()
 
-
 # Adcionando itens a lista -
 def add():
     print('\033[32mVocê escolheu adcionar uma tarefa.\033[0m')
-    addItem = input('O que você gostaria de adicionar? ').capitalize()
-    itemAdicionado = addItem + '\n'
+    addItem = input('O que você gostaria de adicionar? ').strip()
     print()
-    if itemAdicionado in toDo:
+    if addItem.capitalize() in toDo:
         print('\033[32mVocê já adcionou isto a sua lista!\033[0m')
         time.sleep(2)
         os.system('cls' if os.name == 'nt' else 'clear')
     else:  # Adição
-        toDo.append(addItem)
-        print(f'Item - {addItem}, adcionado a sua lista!')
+        toDo.append(addItem.capitalize())
+        print(f'Item - {addItem.capitalize()}, adcionado a sua lista!')
         print('---')
         time.sleep(2)
         os.system('cls' if os.name == 'nt' else 'clear')
         with open('tasks.txt', 'a', encoding='utf=8') as backup:
-            backup.write(str(len(toDo)) + ': ' + addItem + '\n')
+            backup.write(addItem.capitalize() + '\n')
 
 
 # Removendo itens do backup
@@ -67,7 +63,7 @@ def deletandoLista():
     confirmacao = input(
         'Tem certeza que deseja \033[31mapagar toda a lista\033[0m? ').lower()
 
-    if confirmacao == 'sim':  # Deletando toda lista e backup
+    if confirmacao.strip() == 'sim':  # Deletando toda lista e backup
         print('Deletando toda sua lista...')
         time.sleep(1)
         toDo.clear()
@@ -89,17 +85,17 @@ def remover():
     print()
     ver()
     removerItem = input(
-        'O que você gostaria de remover (digite del para apagar toda lista)? ').capitalize()
-    removendo = removerItem + '\n'
-    print()    
-    if removendo in toDo or removerItem in toDo: # Garantindo que o item que quer ser reovido existe na lista e no backup
+        'O que você gostaria de remover (digite del para apagar toda lista)? ').strip()
+    print()
+    # Garantindo que o item que quer ser reovido existe na lista e no backup
+    if removerItem.capitalize() in toDo:
         confirmacao = input(
             f'Você tem certeza que deseja remver o item \033[31m{removerItem}\033[0m? ').lower()
-        if confirmacao == 'sim':
-            removendoDoBackup(toDo, removendo)
+        if confirmacao.strip() == 'sim':
+            removendoDoBackup(toDo, removerItem.capitalize())
             print(f'{removerItem} removido')
             time.sleep(1)
-            toDo.remove(removendo)
+            toDo.remove(removerItem.capitalize())
             ver()
             time.sleep(3)
             os.system('cls' if os.name == 'nt' else 'clear')
@@ -109,7 +105,7 @@ def remover():
             os.system('cls' if os.name == 'nt' else 'clear')
             remover()
 
-    elif removerItem == 'Del':
+    elif removerItem == 'del':
         deletandoLista()
 
     else:  # Caso o item que desejam remover não se encontre
@@ -126,35 +122,36 @@ def ver():
     print("---\n")
 
 
-# Editando o backup - 
+# Editando o backup -
 def editandoBackup(editando, novo):
     with open('tasks.txt', 'r') as backup:
         conteudo = backup.read()
-    conteudo = conteudo.replace(editando, novo + '\n')
+    conteudo = conteudo.replace(editando, novo)
     with open('tasks.txt', 'w') as backup:
-        backup.write(conteudo) 
+        backup.write(conteudo)
 
 # Editando a lista -
 def editar():
     ver()
     editarItem = input(
-    'Informe o item que você gostaria de alterar: ') .capitalize()
-    editando = editarItem + '\n'
+        'Informe o item que você gostaria de alterar: ') .strip()
 
-    if editando in toDo:
-        novo = input(f'Você gostaria de mudar \033[34m{editarItem}\033[0m para o que? ') .capitalize()
+    if editarItem.capitalize() in toDo:
+        novo = input(
+            f'Você gostaria de mudar \033[34m{editarItem}\033[0m para o que? ') .strip()
         for i in range(len(toDo)):
-            if toDo[i] == editando:
-                toDo[i] = novo  # Substituindo o valor de um item por um novo
-                print(f'\n{editarItem} alterado para {novo}.')
-                editandoBackup(editando, novo)
+            if toDo[i] == editarItem.capitalize():
+                toDo[i] = novo.capitalize()  # Substituindo o valor de um item por um novo
+                print(f'\n{editarItem.capitalize()} alterado para {novo.capitalize()}.')
+                editandoBackup(editarItem.capitalize(), novo.capitalize())
     else:
-        print(f'\nItem: {editarItem} não encontrado\nTente denovo...')
+        print(f'\nItem: {editarItem.capitalize()} não encontrado\nTente denovo...')
         time.sleep(2)
         os.system('cls' if os.name == 'nt' else 'clear')
-    
+
     time.sleep(3)
     os.system('cls')
+
 
 # Código principal --
 toDo = []
