@@ -36,14 +36,13 @@ def modoHard():
     os.system('cls' if os.name == 'nt' else 'clear')
     print('\n\033[31mVocê escolheu Modo Hardcore!\033[0m')
     print(
-        '''\nComo funciona:\nVocê terá \033[31m4 chances\033[0m para advinhar as letras de uma palavra escolhida aleatóriamente do nosso banco de dados de pavras difíceis!\nPara terminar o jogo continue chutando letras até a palavra estar completa!.''')
+        '''\nComo funciona:\nVocê terá \033[31m6 chances\033[0m para advinhar as letras de uma palavra escolhida aleatóriamente do nosso banco de dados de pavras difíceis!\nPara terminar o jogo continue chutando letras até a palavra estar completa!.''')
     print()
     input('\033[31mClique enter para começar!\033[0m ')
     palavra = escolherPalavraDificil()
-    começandoJogo(palavra, 4)
+    começandoJogo(palavra, 6)
 
 # Funçoes --
-
 def escolherPalavra():
     BancoDePalavras = ['amarelo', 'amiga', 'amor', 'ave', 'limonada', 'meia', 'noite', 'ovo', 'bolo', 'branco', 'cama', 'caneca',
                        'celular', 'janela', 'clube', 'copo', 'doce', 'elefante', 'escola', 'estojo', 'faca', 'foto', 'garfo', 'geleia', 'girafa', 'passarinho', 'peixe', 'pijama', 'rato', 'umbigo', 'desalmado', 'eloquente', 'esfirra', 'esquerdo', 'caminho'
@@ -57,7 +56,8 @@ def escolherPalavraDificil():
     palavra = random.choice(BancoDePalavrasDificeis)
     return palavra
 
-def validandoPalavraEscolhida(palavra):
+# Validando a palavra inserida no modo 2 - 
+def validandoPalavraEscolhida(palavra): 
     if len(str(palavra.strip())) > 2:
         começandoJogo(palavra, 6)
     else:
@@ -102,17 +102,16 @@ def achandoLetras(vidas, palavra):
 
         if vidas < 1:
             print('\nSuas vidas acabaram!')
-            perdeuJogo()
+            perdeuJogo(palavra)
             break
 
         continue
 
 def imprimindoaPalava(letrasChutadas, palavra, vidas):
-    print(f'\nAinda te restam - \033[31m{vidas}\033[0m vida(s).\n\n')
+    desenhoVidas(vidas)
     time.sleep(2)
 
-    # Checa se algum _ foi imprimido, se não foi o jogador ganhou.
-    encontrouaPalavra = True
+    encontrouaPalavra = True # Checa se algum _ foi imprimido, se não foi o jogador ganhou
     for letra in palavra:
         if letra in letrasChutadas:
             print(f'\033[35m{letra}', end='', sep='')
@@ -127,9 +126,72 @@ def imprimindoaPalava(letrasChutadas, palavra, vidas):
     if encontrouaPalavra == True:
         ganhouJogo(palavra, vidas)
 
+def desenhoVidas(vidas):
+    HANGMANPICS = ['''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========''']
+    time.sleep(1.5)
+    print(f'\nAinda te restam - \033[31m{vidas}\033[0m vida(s).')
+    match(vidas):
+        case 1: print(HANGMANPICS[5], '\n\n')
+        case 0: print(HANGMANPICS[6], '\n\n')
+        case 2: print(HANGMANPICS[4], '\n\n')
+        case 3: print(HANGMANPICS[3], '\n\n')
+        case 4: print(HANGMANPICS[2], '\n\n')
+        case 5: print(HANGMANPICS[1], '\n\n')
+        case 6: print(HANGMANPICS[0], '\n\n')
+    time.sleep(2)
 
-def perdeuJogo():
-    print('\033[31mVocê perdeu o jogo!\033[0m😥\nInfelizmente você não encontrou a palavra certa antes de acabar com as suas vidas.\n')
+def perdeuJogo(palavra):
+    print(
+        f'\033[31mVocê perdeu o jogo!\033[0m😥\nInfelizmente você não encontrou a palavra \033[35m{palavra}\033[0m, antes de acabar com as suas vidas.\n')
     jogarDenovo()
 
 def ganhouJogo(palavra, vidas):
@@ -153,7 +215,6 @@ def jogarDenovo():
     main()
 
 # Código principal --
-
 def main():
     print('''\033[35mBem vindos ao jogo da forca!\n------\033[0m''')
     print()
@@ -171,6 +232,5 @@ def main():
                 continue
 
         jogarDenovo()
-
 
 main()
